@@ -5,12 +5,12 @@
 #define I2S_SD 13
 #define I2S_SCK 2
 #define I2S_PORT I2S_NUM_0
-#define I2S_SAMPLE_RATE   (16000)
-#define I2S_SAMPLE_BITS   (16)
-#define I2S_READ_LEN      (16 * 1024)
-#define RECORD_TIME       (20) //Seconds
-#define I2S_CHANNEL_NUM   (1)
-#define FLASH_RECORD_SIZE (I2S_CHANNEL_NUM * I2S_SAMPLE_RATE * I2S_SAMPLE_BITS / 8 * RECORD_TIME)
+#define I2S_SAMPLE_RATE   (16000) //Sampling rate 16kHz
+#define I2S_SAMPLE_BITS   (16)  //I2S bits per sample
+#define I2S_READ_LEN      (16 * 1024) //I2S read buffer length
+#define RECORD_TIME       (20) //Record time in second
+#define I2S_CHANNEL_NUM   (1) //one channel
+#define FLASH_RECORD_SIZE (I2S_CHANNEL_NUM * I2S_SAMPLE_RATE * I2S_SAMPLE_BITS / 8 * RECORD_TIME) //the size of the recording file
 
 File file;
 const char filename[] = "/recording.wav";
@@ -50,18 +50,18 @@ void SPIFFSInit(){
 
 void i2sInit(){
   i2s_config_t i2s_config = {
-    .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_RX),
-    .sample_rate = I2S_SAMPLE_RATE,
-    .bits_per_sample = i2s_bits_per_sample_t(I2S_SAMPLE_BITS),
-    .channel_format = I2S_CHANNEL_FMT_ONLY_LEFT,
-    .communication_format = i2s_comm_format_t(I2S_COMM_FORMAT_I2S | I2S_COMM_FORMAT_I2S_MSB),
+    .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_RX),  // Default mode of I2S
+    .sample_rate = I2S_SAMPLE_RATE, //Sampling rate 16kHz
+    .bits_per_sample = i2s_bits_per_sample_t(I2S_SAMPLE_BITS),  //I2S bits per sample
+    .channel_format = I2S_CHANNEL_FMT_ONLY_LEFT,  //I2S Channel format
+    .communication_format = i2s_comm_format_t(I2S_COMM_FORMAT_I2S | I2S_COMM_FORMAT_I2S_MSB), //I2S Communication standard
     .intr_alloc_flags = 0,
     .dma_buf_count = 64,
     .dma_buf_len = 1024,
     .use_apll = 1
   };
 
-  i2s_driver_install(I2S_PORT, &i2s_config, 0, NULL);
+  i2s_driver_install(I2S_PORT, &i2s_config, 0, NULL); //install the driver and set communication pins
 
   const i2s_pin_config_t pin_config = {
     .bck_io_num = I2S_SCK,
@@ -95,8 +95,8 @@ void i2s_adc(void *arg)
     char* i2s_read_buff = (char*) calloc(i2s_read_len, sizeof(char));
     uint8_t* flash_write_buff = (uint8_t*) calloc(i2s_read_len, sizeof(char));
 
-    i2s_read(I2S_PORT, (void*) i2s_read_buff, i2s_read_len, &bytes_read, portMAX_DELAY);
-    i2s_read(I2S_PORT, (void*) i2s_read_buff, i2s_read_len, &bytes_read, portMAX_DELAY);
+    //i2s_read(I2S_PORT, (void*) i2s_read_buff, i2s_read_len, &bytes_read, portMAX_DELAY);
+    //i2s_read(I2S_PORT, (void*) i2s_read_buff, i2s_read_len, &bytes_read, portMAX_DELAY);
     
     Serial.println(" *** Recording Start *** ");
     while (flash_wr_size < FLASH_RECORD_SIZE) {
