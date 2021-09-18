@@ -7,3 +7,7 @@ https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/periph
 
 For set up ESP32 with Arduino, Check out this link 
 https://www.arduinoindonesia.id/2019/07/memulai-pemrograman-esp32-menggunakan.html
+
+[UPDATE]
+ESP32 Capturing audio from I2S mic to save WAV file in the SPIFFS
+https://www.youtube.com/watch?v=qmruNKeIN-o&t=1025s
