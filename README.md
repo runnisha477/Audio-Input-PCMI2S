@@ -11,3 +11,7 @@ https://www.arduinoindonesia.id/2019/07/memulai-pemrograman-esp32-menggunakan.ht
 [UPDATE]
 ESP32 Capturing audio from I2S mic to save WAV file in the SPIFFS
 https://www.youtube.com/watch?v=qmruNKeIN-o&t=1025s
+
+Other Sources
+https://www.esp32.com/viewtopic.php?t=15185
+https://github.com/atomic14/esp32_audio
